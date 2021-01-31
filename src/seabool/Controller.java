@@ -7,9 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -22,14 +25,22 @@ public class Controller extends AbstractController implements Initializable {
     private TreeView<String> filesTreeView;
 
     private TreeItem<String> rootItemInNotesTreeView;
+    private TreeItem<String> rootItemInFilesTreeView;
+
     private final FilesHandler filesHandler = new FilesHandler();
-    Set<StudentClass> studentClasses = new TreeSet<>();
+    private Set<StudentClass> studentClasses = new TreeSet<>();
+
+    private Desktop desktop = Desktop.getDesktop();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         rootItemInNotesTreeView = new TreeItem<>("Your classes");
         rootItemInNotesTreeView.setExpanded(true);
         notesTreeView.setRoot(rootItemInNotesTreeView);
+
+        rootItemInFilesTreeView = new TreeItem<>("Your files");
+        rootItemInFilesTreeView.setExpanded(true);
+        filesTreeView.setRoot(rootItemInFilesTreeView);
     }
 
     private String showPopupWindow(String fxmlName) {
@@ -66,7 +77,7 @@ public class Controller extends AbstractController implements Initializable {
     public void addNoteOnClick() {
         String note = showPopupWindow("addNote.fxml");
         if(note != null){
-            StudentClass studentClass = getClassByName(getSelectedCell().getValue());
+            StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
             if(studentClass != null){
                 studentClass.addNote(note);
                 updateNotesTreeView();
@@ -90,8 +101,12 @@ public class Controller extends AbstractController implements Initializable {
         notesTreeView.setRoot(rootItemInNotesTreeView);
     }
 
-    private TreeItem<String> getSelectedCell() {
+    private TreeItem<String> getClassSelectedCell() {
         return notesTreeView.getSelectionModel().getSelectedItem();
+    }
+
+    private TreeItem<String> getNoteSelectedCell() {
+        return filesTreeView.getSelectionModel().getSelectedItem();
     }
 
     private StudentClass getClassByName(String className){
@@ -102,4 +117,25 @@ public class Controller extends AbstractController implements Initializable {
         return null;
     }
 
+    public void classesTreeViewOnClick(MouseEvent mouseEvent) {
+        rootItemInFilesTreeView.getChildren().clear();
+        StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
+        if(studentClass != null){
+            if(studentClass.getClassDirectory() != null){
+                for (final File fileEntry : studentClass.getClassDirectory().listFiles()) {
+                    TreeItem<String> noteItem = new TreeItem<>(fileEntry.getName());
+                    rootItemInFilesTreeView.getChildren().add(noteItem);
+                }
+            }
+        }
+
+    }
+
+    public void filesTreeViewOnClick(MouseEvent mouseEvent) throws IOException {
+        StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
+        if(studentClass != null){
+            File file = new File("Classes/" + studentClass.getClassName() + "/" + getNoteSelectedCell().getValue());
+            if(file.exists()) desktop.open(file);
+        }
+    }
 }

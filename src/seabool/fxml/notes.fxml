@@ -9,8 +9,8 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="backgroundAnchor" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seabool.Controller">
-   <TreeView fx:id="notesTreeView" layoutX="13.0" layoutY="114.0" prefHeight="352.0" prefWidth="454.0" styleClass="notesTreeView" stylesheets="@../css/style.css" AnchorPane.leftAnchor="15.0" />
-   <TreeView fx:id="filesTreeView" layoutX="531.0" layoutY="114.0" prefHeight="352.0" prefWidth="255.0" styleClass="notesTreeView" stylesheets="@../css/style.css" AnchorPane.rightAnchor="15.0" />
+   <TreeView fx:id="notesTreeView" layoutX="13.0" layoutY="114.0" onMouseClicked="#classesTreeViewOnClick" prefHeight="352.0" prefWidth="454.0" styleClass="notesTreeView" stylesheets="@../css/style.css" AnchorPane.leftAnchor="15.0" />
+   <TreeView fx:id="filesTreeView" layoutX="544.0" layoutY="114.0" onMouseClicked="#filesTreeViewOnClick" prefHeight="352.0" prefWidth="255.0" styleClass="notesTreeView" stylesheets="@../css/style.css" AnchorPane.rightAnchor="0.7999999999999545" />
    <Label layoutX="14.0" layoutY="86.0" text="Your classes" textFill="WHITE" AnchorPane.leftAnchor="15.0">
       <font>
          <Font name="Calibri" size="18.0" />
