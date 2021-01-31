@@ -54,3 +54,8 @@
 {
     -fx-background-color: white;
 }
+
+.inputField{
+    -fx-background-color: #5B5B5B;
+    -fx-text-fill: white;
+}

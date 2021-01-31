@@ -7,13 +7,16 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="325.0" styleClass="backgroundAnchor" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <Label layoutX="88.0" layoutY="43.0" text="Note" textFill="WHITE">
+   <Label layoutX="55.0" layoutY="52.0" text="Note" textFill="WHITE">
       <font>
          <Font name="Calibri" size="18.0" />
       </font>
    </Label>
-   <TextField fx:id="contentField" layoutX="88.0" layoutY="76.0" stylesheets="@../css/style.css" />
-   <Button fx:id="addButton" layoutX="104.0" layoutY="102.0" mnemonicParsing="false" styleClass="normalButton" stylesheets="@../css/style.css" text="+ Add note" textFill="WHITE">
+   <TextField fx:id="contentField" layoutX="55.0" layoutY="75.0" styleClass="inputField" stylesheets="@../css/style.css">
+      <font>
+         <Font name="Calibri" size="18.0" />
+      </font></TextField>
+   <Button fx:id="addButton" layoutX="104.0" layoutY="131.0" mnemonicParsing="false" styleClass="normalButton" stylesheets="@../css/style.css" text="+ Add note" textFill="WHITE">
       <font>
          <Font size="18.0" />
       </font>
