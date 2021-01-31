@@ -12,8 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Controller extends AbstractController implements Initializable {
 
@@ -23,6 +22,8 @@ public class Controller extends AbstractController implements Initializable {
     private TreeView<String> filesTreeView;
 
     private TreeItem<String> rootItemInNotesTreeView;
+    private final FilesHandler filesHandler = new FilesHandler();
+    Set<StudentClass> studentClasses = new TreeSet<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -31,7 +32,7 @@ public class Controller extends AbstractController implements Initializable {
         notesTreeView.setRoot(rootItemInNotesTreeView);
     }
 
-    private HashMap<String, Object> showPopupWindow(String fxmlName) {
+    private String showPopupWindow(String fxmlName) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("fxml/" + fxmlName));
         PopupController popupController = new PopupController();
@@ -55,25 +56,50 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     public void addClassOnClick() {
-        HashMap<String, Object> resultMap = showPopupWindow("addClass.fxml");
-        TreeItem<String> item = new TreeItem<>(resultMap.get("content").toString());
-        rootItemInNotesTreeView.getChildren().add(item);
-        updateNotesTreeView();
+        String className = showPopupWindow("addClass.fxml");
+        if(className != null){
+            studentClasses.add(new StudentClass(className, filesHandler.createClassFolder(className)));
+            updateNotesTreeView();
+        }
     }
 
     public void addNoteOnClick() {
-        HashMap<String, Object> resultMap = showPopupWindow("addNote.fxml");
-        TreeItem<String> item = new TreeItem<>(resultMap.get("content").toString());
-        getSelectedCell().getChildren().add(item);
-        updateNotesTreeView();
+        String note = showPopupWindow("addNote.fxml");
+        if(note != null){
+            StudentClass studentClass = getClassByName(getSelectedCell().getValue());
+            if(studentClass != null){
+                studentClass.addNote(note);
+                updateNotesTreeView();
+            }
+        }
     }
 
     private void updateNotesTreeView() {
+        rootItemInNotesTreeView.getChildren().clear();
+
+        for (StudentClass studentClass : studentClasses) {
+            TreeItem<String> classItem = new TreeItem<>(studentClass.getClassName());
+            rootItemInNotesTreeView.getChildren().add(classItem);
+            if(studentClass.getNotes().size() > 0){
+                for (String note : studentClass.getNotes()) {
+                    TreeItem<String> noteItem = new TreeItem<>(note);
+                    classItem.getChildren().add(noteItem);
+                }
+            }
+        }
         notesTreeView.setRoot(rootItemInNotesTreeView);
     }
 
     private TreeItem<String> getSelectedCell() {
         return notesTreeView.getSelectionModel().getSelectedItem();
+    }
+
+    private StudentClass getClassByName(String className){
+        for (StudentClass studentClass : studentClasses) {
+            if (studentClass.equals(new StudentClass(className)))
+                return studentClass;
+        }
+        return null;
     }
 
 }

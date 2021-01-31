@@ -7,7 +7,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class PopupController extends AbstractController implements Initializable {
@@ -19,18 +18,19 @@ public class PopupController extends AbstractController implements Initializable
     @FXML
     private Stage stage = null;
 
-    private final HashMap<String, Object> result = new HashMap<>();
+    String result;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         addButton.setOnAction((event) -> {
-            result.clear();
-            result.put("content", contentField.getText());
+            if(!contentField.getText().equals("")){
+                result = contentField.getText();
+            }
             closeStage();
         });
     }
 
-    public HashMap<String, Object> getResult() {
+    public String getResult() {
         return this.result;
     }
 
