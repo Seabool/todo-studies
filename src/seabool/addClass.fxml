@@ -6,19 +6,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0"
-            prefWidth="325.0" styleClass="backgroundAnchor" stylesheets="@style.css"
-            xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="325.0" styleClass="backgroundAnchor" stylesheets="@style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <Label layoutX="88.0" layoutY="43.0" text="Class name" textFill="WHITE">
       <font>
-         <Font name="Calibri" size="18.0"/>
+         <Font name="Calibri" size="18.0" />
       </font>
    </Label>
-   <TextField fx:id="contentField" layoutX="88.0" layoutY="76.0" stylesheets="@style.css"/>
-   <Button fx:id="addButton" layoutX="103.0" layoutY="102.0" mnemonicParsing="false" styleClass="normalButton"
-           stylesheets="@style.css" text="+ Add class" textFill="WHITE">
+   <TextField fx:id="contentField" layoutX="88.0" layoutY="76.0" stylesheets="@style.css" />
+   <Button fx:id="addButton" layoutX="103.0" layoutY="102.0" mnemonicParsing="false" styleClass="normalButton" stylesheets="@style.css" text="+ Add class" textFill="WHITE">
       <font>
-         <Font size="18.0"/>
+         <Font size="18.0" />
       </font>
    </Button>
 </AnchorPane>
