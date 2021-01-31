@@ -33,7 +33,7 @@ public class Controller extends AbstractController implements Initializable {
 
     private HashMap<String, Object> showPopupWindow(String fxmlName) {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(fxmlName));
+        loader.setLocation(getClass().getResource("fxml/" + fxmlName));
         PopupController popupController = new PopupController();
         loader.setController(popupController);
         Parent layout;

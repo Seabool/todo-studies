@@ -15,13 +15,13 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("notes.fxml"));
+        loader.setLocation(getClass().getResource("fxml/notes.fxml"));
         Parent layout = loader.load();
 
         primaryStage.setTitle("ToDo Studies");
 
         Scene scene = new Scene(layout);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
 
         primaryStage.setScene(scene);
         primaryStage.show();
