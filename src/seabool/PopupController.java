@@ -25,10 +25,9 @@ public class PopupController extends AbstractController implements Initializable
     public void initialize(URL url, ResourceBundle rb) {
         addButton.setOnAction((event) -> {
             result.clear();
-            result.put("className", contentField.getText());
+            result.put("content", contentField.getText());
             closeStage();
         });
-
     }
 
     public HashMap<String, Object> getResult() {
