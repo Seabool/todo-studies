@@ -12,6 +12,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -105,7 +107,7 @@ public class Controller extends AbstractController implements Initializable {
         return notesTreeView.getSelectionModel().getSelectedItem();
     }
 
-    private TreeItem<String> getNoteSelectedCell() {
+    private TreeItem<String> getFileSelectedCell() {
         return filesTreeView.getSelectionModel().getSelectedItem();
     }
 
@@ -117,18 +119,20 @@ public class Controller extends AbstractController implements Initializable {
         return null;
     }
 
-    public void classesTreeViewOnClick(MouseEvent mouseEvent) {
+    public void classesTreeViewOnClick() {
         updateFilesTreeView();
     }
 
     private void updateFilesTreeView(){
         rootItemInFilesTreeView.getChildren().clear();
-        StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
-        if(studentClass != null){
-            if(studentClass.getClassDirectory() != null){
-                for (final File fileEntry : studentClass.getClassDirectory().listFiles()) {
-                    TreeItem<String> noteItem = new TreeItem<>(fileEntry.getName());
-                    rootItemInFilesTreeView.getChildren().add(noteItem);
+        if(getClassSelectedCell() != null){
+            StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
+            if(studentClass != null){
+                if(studentClass.getClassDirectory() != null){
+                    for (final File fileEntry : studentClass.getClassDirectory().listFiles()) {
+                        TreeItem<String> noteItem = new TreeItem<>(fileEntry.getName());
+                        rootItemInFilesTreeView.getChildren().add(noteItem);
+                    }
                 }
             }
         }
@@ -156,11 +160,20 @@ public class Controller extends AbstractController implements Initializable {
     private File getFileFromFilesTreeViewBySelection(){
         StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
         if(studentClass != null){
-            File file = new File("Classes/" + studentClass.getClassName() + "/" + getNoteSelectedCell().getValue());
+            File file = new File("Classes/" + studentClass.getClassName() + "/" + getFileSelectedCell().getValue());
             if(file.exists()) {
                 return file;
             }
         }
         return null;
+    }
+
+    public void copyToClipboardOnClick() {
+        String textFromCell = getClassSelectedCell().getValue();
+        if(!textFromCell.equals("")){
+            StringSelection textToClipboard = new StringSelection(getClassSelectedCell().getValue());
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(textToClipboard, null);
+        }
     }
 }
