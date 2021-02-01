@@ -197,11 +197,13 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     public void copyToClipboardOnClick() {
-        String textFromCell = getClassSelectedCell().getValue();
-        if(!textFromCell.equals("")){
-            StringSelection textToClipboard = new StringSelection(getClassSelectedCell().getValue());
-            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(textToClipboard, null);
+        if(getClassSelectedCell() != null){
+            String textFromCell = getClassSelectedCell().getValue();
+            if(!textFromCell.equals("")){
+                StringSelection textToClipboard = new StringSelection(getClassSelectedCell().getValue());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(textToClipboard, null);
+            }
         }
     }
 }
