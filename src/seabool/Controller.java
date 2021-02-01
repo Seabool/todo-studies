@@ -7,17 +7,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Controller extends AbstractController implements Initializable {
 
@@ -30,12 +34,23 @@ public class Controller extends AbstractController implements Initializable {
     private TreeItem<String> rootItemInFilesTreeView;
 
     private final FilesHandler filesHandler = new FilesHandler();
-    private final Set<StudentClass> studentClasses = new TreeSet<>();
+    private XMLHandler xmlHandler;
+
+    private Set<StudentClass> studentClasses = new TreeSet<>();
 
     private final Desktop desktop = Desktop.getDesktop();
 
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        try {
+            xmlHandler = new XMLHandler();
+        } catch (ParserConfigurationException | TransformerException | SAXException | IOException e) {
+            //System.out.println("Problem with XML handler.");
+            e.printStackTrace();
+        }
+
         rootItemInNotesTreeView = new TreeItem<>("Your classes");
         rootItemInNotesTreeView.setExpanded(true);
         notesTreeView.setRoot(rootItemInNotesTreeView);
@@ -43,6 +58,9 @@ public class Controller extends AbstractController implements Initializable {
         rootItemInFilesTreeView = new TreeItem<>("Your files");
         rootItemInFilesTreeView.setExpanded(true);
         filesTreeView.setRoot(rootItemInFilesTreeView);
+
+        studentClasses = xmlHandler.initializeClasses();
+        updateNotesTreeView();
     }
 
     private String showPopupWindow(String fxmlName) {
@@ -72,6 +90,11 @@ public class Controller extends AbstractController implements Initializable {
         String className = showPopupWindow("addClass.fxml");
         if(className != null){
             studentClasses.add(new StudentClass(className, filesHandler.createClassFolder(className)));
+            try {
+                xmlHandler.addToXML(className);
+            } catch (TransformerException e) {
+                System.out.println("Problem with adding class to XML file.");
+            }
             updateNotesTreeView();
         }
     }
@@ -82,6 +105,11 @@ public class Controller extends AbstractController implements Initializable {
             StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
             if(studentClass != null){
                 studentClass.addNote(note);
+                try {
+                    xmlHandler.addNoteToClass(studentClass.getClassName(), note);
+                } catch (TransformerException e) {
+                    System.out.println("Problem with adding note to XML file.");
+                }
                 updateNotesTreeView();
             }
         }
@@ -95,7 +123,7 @@ public class Controller extends AbstractController implements Initializable {
             rootItemInNotesTreeView.getChildren().add(classItem);
             if(studentClass.getNotes().size() > 0){
                 for (String note : studentClass.getNotes()) {
-                    TreeItem<String> noteItem = new TreeItem<>(note);
+                    TreeItem<String> noteItem = new TreeItem<>("• " + note);
                     classItem.getChildren().add(noteItem);
                 }
             }
