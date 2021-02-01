@@ -11,3 +11,5 @@ It is an application that helps students keep their photos of notes and files in
 
 To use this app you will need `javaFX`. If you have it, then you can simply compile it and run.
 
+## Current look
+![screen](https://github.com/Seabool/todo-studies/blob/main/screen.png)
