@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -94,7 +93,7 @@ public class Controller extends AbstractController implements Initializable {
 
     public void addClassOnClick() {
         String className = showPopupWindow("addClass.fxml");
-        if(className != null){
+        if (className != null) {
             studentClasses.add(new StudentClass(className, filesHandler.createClassFolder(className)));
             try {
                 xmlHandler.addToXML(className);
@@ -107,9 +106,9 @@ public class Controller extends AbstractController implements Initializable {
 
     public void addNoteOnClick() {
         String note = showPopupWindow("addNote.fxml");
-        if(note != null){
+        if (note != null) {
             StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
-            if(studentClass != null){
+            if (studentClass != null) {
                 studentClass.addNote(note);
                 try {
                     xmlHandler.addNoteToClass(studentClass.getClassName(), note);
@@ -127,7 +126,7 @@ public class Controller extends AbstractController implements Initializable {
         for (StudentClass studentClass : studentClasses) {
             TreeItem<String> classItem = new TreeItem<>(studentClass.getClassName());
             rootItemInNotesTreeView.getChildren().add(classItem);
-            if(studentClass.getNotes().size() > 0){
+            if (studentClass.getNotes().size() > 0) {
                 for (String note : studentClass.getNotes()) {
                     TreeItem<String> noteItem = new TreeItem<>("• " + note);
                     classItem.getChildren().add(noteItem);
@@ -145,7 +144,7 @@ public class Controller extends AbstractController implements Initializable {
         return filesTreeView.getSelectionModel().getSelectedItem();
     }
 
-    private StudentClass getClassByName(String className){
+    private StudentClass getClassByName(String className) {
         for (StudentClass studentClass : studentClasses) {
             if (studentClass.equals(new StudentClass(className)))
                 return studentClass;
@@ -157,12 +156,12 @@ public class Controller extends AbstractController implements Initializable {
         updateFilesTreeView();
     }
 
-    private void updateFilesTreeView(){
+    private void updateFilesTreeView() {
         rootItemInFilesTreeView.getChildren().clear();
-        if(getClassSelectedCell() != null){
+        if (getClassSelectedCell() != null) {
             StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
-            if(studentClass != null){
-                if(studentClass.getClassDirectory() != null){
+            if (studentClass != null) {
+                if (studentClass.getClassDirectory() != null) {
                     for (final File fileEntry : studentClass.getClassDirectory().listFiles()) {
                         TreeItem<String> noteItem = new TreeItem<>(fileEntry.getName());
                         rootItemInFilesTreeView.getChildren().add(noteItem);
@@ -172,9 +171,9 @@ public class Controller extends AbstractController implements Initializable {
         }
     }
 
-    public void openFileOnClick(){
+    public void openFileOnClick() {
         File file = getFileFromFilesTreeViewBySelection();
-        if(file != null){
+        if (file != null) {
             try {
                 desktop.open(file);
             } catch (IOException e) {
@@ -185,17 +184,17 @@ public class Controller extends AbstractController implements Initializable {
 
     public void deleteFileOnClick() {
         File file = getFileFromFilesTreeViewBySelection();
-        if(file != null){
+        if (file != null) {
             file.delete();
             updateFilesTreeView();
         }
     }
 
-    private File getFileFromFilesTreeViewBySelection(){
+    private File getFileFromFilesTreeViewBySelection() {
         StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
-        if(studentClass != null){
+        if (studentClass != null) {
             File file = new File("Classes/" + studentClass.getClassName() + "/" + getFileSelectedCell().getValue());
-            if(file.exists()) {
+            if (file.exists()) {
                 return file;
             }
         }
@@ -203,9 +202,9 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     public void copyToClipboardOnClick() {
-        if(getClassSelectedCell() != null){
+        if (getClassSelectedCell() != null) {
             String textFromCell = getClassSelectedCell().getValue();
-            if(!textFromCell.equals("")){
+            if (!textFromCell.equals("")) {
                 StringSelection textToClipboard = new StringSelection(getClassSelectedCell().getValue());
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(textToClipboard, null);
@@ -214,10 +213,10 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     public void openFolderOnClick() {
-        if(getClassSelectedCell() != null){
+        if (getClassSelectedCell() != null) {
             StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
-            if(studentClass != null){
-                if(studentClass.getClassDirectory() != null){
+            if (studentClass != null) {
+                if (studentClass.getClassDirectory() != null) {
                     try {
                         desktop.open(studentClass.getClassDirectory());
                     } catch (IOException e) {
@@ -229,7 +228,6 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     public void addFilesOnClick() {
-
         Path to;
         Path from;
         File selectedFile;
@@ -239,7 +237,7 @@ public class Controller extends AbstractController implements Initializable {
         selectedFile = fc.showOpenDialog(null);
 
         if (selectedFile != null) {
-            if(getClassSelectedCell() != null){
+            if (getClassSelectedCell() != null) {
                 StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
 
                 from = Paths.get(selectedFile.toURI());
