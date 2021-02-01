@@ -118,6 +118,10 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     public void classesTreeViewOnClick(MouseEvent mouseEvent) {
+        updateFilesTreeView();
+    }
+
+    private void updateFilesTreeView(){
         rootItemInFilesTreeView.getChildren().clear();
         StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
         if(studentClass != null){
@@ -128,20 +132,35 @@ public class Controller extends AbstractController implements Initializable {
                 }
             }
         }
-
     }
 
     public void openFileOnClick(){
+        File file = getFileFromFilesTreeViewBySelection();
+        if(file != null){
+            try {
+                desktop.open(file);
+            } catch (IOException e) {
+                System.out.println("Problem with opening file.");
+            }
+        }
+    }
+
+    public void deleteFileOnClick() {
+        File file = getFileFromFilesTreeViewBySelection();
+        if(file != null){
+            file.delete();
+            updateFilesTreeView();
+        }
+    }
+
+    private File getFileFromFilesTreeViewBySelection(){
         StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
         if(studentClass != null){
             File file = new File("Classes/" + studentClass.getClassName() + "/" + getNoteSelectedCell().getValue());
             if(file.exists()) {
-                try {
-                    desktop.open(file);
-                } catch (IOException e) {
-                    System.out.println("Problem with opening file.");
-                }
+                return file;
             }
         }
+        return null;
     }
 }
