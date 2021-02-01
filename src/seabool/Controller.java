@@ -28,9 +28,9 @@ public class Controller extends AbstractController implements Initializable {
     private TreeItem<String> rootItemInFilesTreeView;
 
     private final FilesHandler filesHandler = new FilesHandler();
-    private Set<StudentClass> studentClasses = new TreeSet<>();
+    private final Set<StudentClass> studentClasses = new TreeSet<>();
 
-    private Desktop desktop = Desktop.getDesktop();
+    private final Desktop desktop = Desktop.getDesktop();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -131,11 +131,17 @@ public class Controller extends AbstractController implements Initializable {
 
     }
 
-    public void filesTreeViewOnClick(MouseEvent mouseEvent) throws IOException {
+    public void openFileOnClick(){
         StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
         if(studentClass != null){
             File file = new File("Classes/" + studentClass.getClassName() + "/" + getNoteSelectedCell().getValue());
-            if(file.exists()) desktop.open(file);
+            if(file.exists()) {
+                try {
+                    desktop.open(file);
+                } catch (IOException e) {
+                    System.out.println("Problem with opening file.");
+                }
+            }
         }
     }
 }
