@@ -18,7 +18,7 @@ public class PopupController extends AbstractController implements Initializable
     @FXML
     private Stage stage = null;
 
-    String result;
+    private String result;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
