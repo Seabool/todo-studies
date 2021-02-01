@@ -59,17 +59,18 @@
          <Font name="Calibri" size="18.0" />
       </font>
    </Button>
-   <Button layoutX="410.0" layoutY="428.0" mnemonicParsing="false" styleClass="normal-button" text="Delete" textFill="WHITE">
+   <Button layoutX="454.0" layoutY="428.0" mnemonicParsing="false" styleClass="normal-button" text="Delete" textFill="WHITE">
       <font>
          <Font name="Calibri" size="18.0" />
       </font>
    </Button>
-   <Button layoutX="410.0" layoutY="384.0" mnemonicParsing="false" styleClass="normal-button" text="Edit" textFill="WHITE">
+   <Button layoutX="464.0" layoutY="384.0" mnemonicParsing="false" styleClass="normal-button" text="Edit" textFill="WHITE">
       <font>
          <Font name="Calibri" size="18.0" />
       </font>
    </Button>
-   <Button layoutX="593.0" layoutY="251.0" mnemonicParsing="false" onMouseClicked="#openFileOnClick" styleClass="normal-button" text="Open file" textFill="WHITE" />
-   <Line endX="-6.5999755859375" endY="247.5999755859375" layoutX="584.0" layoutY="218.0" startX="-6.5999755859375" startY="-146.8000030517578" stroke="#292929" />
-   <Button layoutX="585.0" layoutY="428.0" mnemonicParsing="false" onMouseClicked="#deleteFileOnClick" styleClass="normal-button" text="Delete file" textFill="WHITE" />
+   <Button layoutX="583.0" layoutY="248.0" mnemonicParsing="false" onMouseClicked="#openFileOnClick" styleClass="normal-button" text="Open file" textFill="WHITE" />
+   <Line endX="-6.5999755859375" endY="247.5999755859375" layoutX="579.0" layoutY="214.0" startX="-6.5999755859375" startY="-146.8000030517578" stroke="#292929" />
+   <Button layoutX="579.0" layoutY="428.0" mnemonicParsing="false" onMouseClicked="#deleteFileOnClick" styleClass="normal-button" text="Delete file" textFill="WHITE" />
+   <Button layoutX="573.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#openFolderOnClick" styleClass="normal-button" text="Open folder" textFill="WHITE" />
 </AnchorPane>

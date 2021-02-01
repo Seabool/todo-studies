@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.xml.sax.SAXException;
@@ -203,6 +204,21 @@ public class Controller extends AbstractController implements Initializable {
                 StringSelection textToClipboard = new StringSelection(getClassSelectedCell().getValue());
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(textToClipboard, null);
+            }
+        }
+    }
+
+    public void openFolderOnClick() {
+        if(getClassSelectedCell() != null){
+            StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
+            if(studentClass != null){
+                if(studentClass.getClassDirectory() != null){
+                    try {
+                        desktop.open(studentClass.getClassDirectory());
+                    } catch (IOException e) {
+                        System.out.println("Problem with opening folder.");
+                    }
+                }
             }
         }
     }
