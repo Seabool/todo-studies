@@ -22,6 +22,9 @@
 
 .normalButton{
     -fx-background-color: #353535;
+    -fx-font-family: Calibri;
+    -fx-font-size: 18px;
+
 }
 
 .normalButton:hover{
@@ -44,6 +47,7 @@
     -fx-text-fill: white;
     -fx-font-size: 18;
     -fx-font-family: Calibri;
+    -fx-text-fill: white;
 }
 
 .notesTreeView .tree-cell:selected {
