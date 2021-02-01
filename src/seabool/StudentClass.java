@@ -3,18 +3,18 @@ package seabool;
 import java.io.File;
 import java.util.ArrayList;
 
-public class StudentClass implements Comparable<StudentClass>{
+public class StudentClass implements Comparable<StudentClass> {
 
     private String className;
     private File classDirectory;
     private final ArrayList<String> classNotes = new ArrayList<>();
 
-    public StudentClass(String className, File classDirectory){
+    public StudentClass(String className, File classDirectory) {
         this.className = className;
         this.classDirectory = classDirectory;
     }
 
-    public StudentClass(String className){
+    public StudentClass(String className) {
         this.className = className;
     }
 
@@ -35,11 +35,11 @@ public class StudentClass implements Comparable<StudentClass>{
         this.classDirectory = classDirectory;
     }
 
-    public void addNote(String note){
+    public void addNote(String note) {
         classNotes.add(note);
     }
 
-    public ArrayList<String> getNotes(){
+    public ArrayList<String> getNotes() {
         return classNotes;
     }
 
@@ -55,6 +55,6 @@ public class StudentClass implements Comparable<StudentClass>{
 
     @Override
     public boolean equals(Object obj) {
-        return className.equals(((StudentClass)obj).className);
+        return className.equals(((StudentClass) obj).className);
     }
 }
