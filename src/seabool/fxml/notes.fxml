@@ -21,7 +21,7 @@
          <Font name="Calibri" size="18.0" />
       </font>
    </Button>
-   <Button layoutX="682.0" layoutY="503.0" mnemonicParsing="false" styleClass="normal-button" stylesheets="@../css/style.css" text="+ Add files" textFill="WHITE" AnchorPane.rightAnchor="217.20000000000005">
+   <Button layoutX="682.0" layoutY="503.0" mnemonicParsing="false" onMouseClicked="#addFilesOnClick" styleClass="normal-button" stylesheets="@../css/style.css" text="+ Add files" textFill="WHITE" AnchorPane.rightAnchor="217.20000000000005">
       <font>
          <Font name="Calibri" size="18.0" />
       </font>

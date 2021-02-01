@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.xml.sax.SAXException;
@@ -20,6 +21,10 @@ import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
@@ -218,6 +223,32 @@ public class Controller extends AbstractController implements Initializable {
                     } catch (IOException e) {
                         System.out.println("Problem with opening folder.");
                     }
+                }
+            }
+        }
+    }
+
+    public void addFilesOnClick() {
+
+        Path to;
+        Path from;
+        File selectedFile;
+
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Copy a file");
+        selectedFile = fc.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            if(getClassSelectedCell() != null){
+                StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
+
+                from = Paths.get(selectedFile.toURI());
+                to = Paths.get(studentClass.getClassDirectory().toString() + "/" + selectedFile.getName());
+                try {
+                    Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+                    updateFilesTreeView();
+                } catch (IOException e) {
+                    System.out.println("Problem with copying file.");
                 }
             }
         }
