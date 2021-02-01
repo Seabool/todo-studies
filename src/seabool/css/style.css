@@ -43,11 +43,9 @@
 
 .notesTreeView .tree-cell {
     -fx-background-color: #292929;
-    -fx-text-inner-color: white;
     -fx-text-fill: white;
     -fx-font-size: 18;
     -fx-font-family: Calibri;
-    -fx-text-fill: white;
 }
 
 .notesTreeView .tree-cell:selected {
