@@ -23,11 +23,9 @@ import java.util.TreeSet;
 public class XMLHandler {
 
     private final String filename = "classes.xml";
-
+    private final FilesHandler filesHandler = new FilesHandler();
     private Document document;
     private Element root;
-
-    private FilesHandler filesHandler = new FilesHandler();
 
     public XMLHandler() throws ParserConfigurationException, TransformerException, IOException, SAXException {
         createXMLFile();
@@ -57,25 +55,21 @@ public class XMLHandler {
     }
 
     private Element findByName(String name) {
-        NodeList nList = getDocument().getElementsByTagName("class");
-        for (int i = 0; i < nList.getLength(); i++) {
-
-            Node nNode = nList.item(i);
-
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-                Element user = (Element) nNode;
-                if (user.getElementsByTagName("name").item(0).getTextContent().equals(name)) {
-                    return user;
+        NodeList elements = getDocument().getElementsByTagName("class");
+        for (int i = 0; i < elements.getLength(); i++) {
+            Node node = elements.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                if (element.getElementsByTagName("name").item(0).getTextContent().equals(name)) {
+                    return element;
                 }
-
             }
         }
         return null;
     }
 
     private void createXMLFile() throws TransformerException, IOException, SAXException, ParserConfigurationException {
-        if(!checkIfXMLFileExists(filename)){
+        if (!checkIfXMLFileExists()) {
             root = document.createElement("classes");
             document.appendChild(root);
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -83,7 +77,7 @@ public class XMLHandler {
             DOMSource domSource = new DOMSource(document);
             StreamResult streamResult = new StreamResult(new File(filename));
             transformer.transform(domSource, streamResult);
-        }else{
+        } else {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             document = documentBuilder.parse(getFilename());
@@ -92,12 +86,12 @@ public class XMLHandler {
 
     }
 
-    private boolean checkIfXMLFileExists(String path) {
-        File xmlFile = new File(path);
+    private boolean checkIfXMLFileExists() {
+        File xmlFile = new File(filename);
         return xmlFile.exists();
     }
 
-    public Set<StudentClass> initializeClasses(){
+    public Set<StudentClass> initializeClasses() {
         Set<StudentClass> studentClasses = new TreeSet<>();
 
         NodeList nList = getDocument().getElementsByTagName("class");
@@ -110,9 +104,9 @@ public class XMLHandler {
                 Element user = (Element) nNode;
 
                 String name = user.getElementsByTagName("name").item(0).getTextContent();
-                File file =  filesHandler.createClassFolder(name);
+                File file = filesHandler.createClassFolder(name);
                 StudentClass studentClass = new StudentClass(name, file);
-                for(int j = 0; j < user.getElementsByTagName("note").getLength(); j++){
+                for (int j = 0; j < user.getElementsByTagName("note").getLength(); j++) {
                     studentClass.addNote(user.getElementsByTagName("note").item(j).getTextContent());
                 }
                 studentClasses.add(studentClass);
@@ -126,8 +120,10 @@ public class XMLHandler {
         Element classElement = findByName(className);
         Element noteElement = getDocument().createElement("note");
         noteElement.appendChild(getDocument().createTextNode(note));
-        classElement.appendChild(noteElement);
-        updateXMLFile();
+        if (classElement != null) {
+            classElement.appendChild(noteElement);
+            updateXMLFile();
+        }
     }
 
     public String getFilename() {
