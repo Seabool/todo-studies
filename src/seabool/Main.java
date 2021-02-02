@@ -10,8 +10,12 @@ public class Main extends Application {
 
     private Stage primaryStage;
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
 
         FXMLLoader loader = new FXMLLoader();
@@ -25,10 +29,6 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     public Stage getPrimaryStage() {

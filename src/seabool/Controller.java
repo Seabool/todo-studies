@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.xml.sax.SAXException;
@@ -20,31 +19,23 @@ import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class Controller extends AbstractController implements Initializable {
 
+    private final FilesHandler filesHandler = new FilesHandler();
+    private final Desktop desktop = Desktop.getDesktop();
     @FXML
     private TreeView<String> notesTreeView;
     @FXML
     private TreeView<String> filesTreeView;
-
     private TreeItem<String> rootItemInNotesTreeView;
     private TreeItem<String> rootItemInFilesTreeView;
-
-    private final FilesHandler filesHandler = new FilesHandler();
     private XMLHandler xmlHandler;
-
     private Set<StudentClass> studentClasses = new TreeSet<>();
-
-    private final Desktop desktop = Desktop.getDesktop();
-
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -121,14 +112,14 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     private void updateNotesTreeView() {
-        rootItemInNotesTreeView.getChildren().clear();
+        clearTreeView(rootItemInNotesTreeView);
 
         for (StudentClass studentClass : studentClasses) {
             TreeItem<String> classItem = new TreeItem<>(studentClass.getClassName());
             rootItemInNotesTreeView.getChildren().add(classItem);
             if (studentClass.getNotes().size() > 0) {
                 for (String note : studentClass.getNotes()) {
-                    TreeItem<String> noteItem = new TreeItem<>("• " + note);
+                    TreeItem<String> noteItem = new TreeItem<>(note);
                     classItem.getChildren().add(noteItem);
                 }
             }
@@ -157,12 +148,12 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     private void updateFilesTreeView() {
-        rootItemInFilesTreeView.getChildren().clear();
+        clearTreeView(rootItemInFilesTreeView);
         if (getClassSelectedCell() != null) {
             StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
             if (studentClass != null) {
                 if (studentClass.getClassDirectory() != null) {
-                    for (final File fileEntry : studentClass.getClassDirectory().listFiles()) {
+                    for (final File fileEntry : Objects.requireNonNull(studentClass.getClassDirectory().listFiles())) {
                         TreeItem<String> noteItem = new TreeItem<>(fileEntry.getName());
                         rootItemInFilesTreeView.getChildren().add(noteItem);
                     }
@@ -183,9 +174,7 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     public void deleteFileOnClick() {
-        File file = getFileFromFilesTreeViewBySelection();
-        if (file != null) {
-            file.delete();
+        if (filesHandler.deleteFile(getFileFromFilesTreeViewBySelection())) {
             updateFilesTreeView();
         }
     }
@@ -215,40 +204,28 @@ public class Controller extends AbstractController implements Initializable {
     public void openFolderOnClick() {
         if (getClassSelectedCell() != null) {
             StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
-            if (studentClass != null) {
-                if (studentClass.getClassDirectory() != null) {
-                    try {
-                        desktop.open(studentClass.getClassDirectory());
-                    } catch (IOException e) {
-                        System.out.println("Problem with opening folder.");
-                    }
+            if (studentClass != null && studentClass.getClassDirectory() != null) {
+                try {
+                    desktop.open(studentClass.getClassDirectory());
+                } catch (IOException e) {
+                    System.out.println("Problem with opening folder.");
                 }
             }
         }
     }
 
     public void addFilesOnClick() {
-        Path to;
-        Path from;
-        File selectedFile;
-
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Copy a file");
-        selectedFile = fc.showOpenDialog(null);
-
-        if (selectedFile != null) {
-            if (getClassSelectedCell() != null) {
-                StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
-
-                from = Paths.get(selectedFile.toURI());
-                to = Paths.get(studentClass.getClassDirectory().toString() + "/" + selectedFile.getName());
-                try {
-                    Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
-                    updateFilesTreeView();
-                } catch (IOException e) {
-                    System.out.println("Problem with copying file.");
-                }
+        File selectedFile = filesHandler.getFileFromFileChooser();
+        if (selectedFile != null && getClassSelectedCell() != null) {
+            StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
+            if (studentClass != null) {
+                filesHandler.copyFile(selectedFile.toString(), studentClass.getClassDirectory().toString() + "/" + selectedFile.getName());
+                updateFilesTreeView();
             }
         }
+    }
+
+    private void clearTreeView(TreeItem<String> root) {
+        root.getChildren().clear();
     }
 }

@@ -1,44 +1,44 @@
-.anchor-background{
+.anchor-background {
     -fx-background-color: #353535;
 }
 
-.top-buttons-background{
+.top-buttons-background {
     -fx-background-color: #292929;
 }
 
-.top-button{
+.top-button {
     -fx-background-color: #353535;
     -fx-border-radius: 20 20 0 0;
     -fx-background-radius: 20 20 0 0;
 }
 
-.top-button:hover{
+.top-button:hover {
     -fx-background-color: #5B5B5B;
 }
 
-.top-button:disabled{
+.top-button:disabled {
     -fx-background-color: #292929;
 }
 
-.normal-button{
+.normal-button {
     -fx-background-color: #353535;
     -fx-font-family: Calibri;
     -fx-font-size: 18px;
 
 }
 
-.normal-button:hover{
+.normal-button:hover {
     -fx-cursor: pointer;
     -fx-background-color: #5B5B5B;
 }
 
-.normal-button:pressed{
+.normal-button:pressed {
     -fx-background-color: #737373;
 }
 
-.notes-treeview{
+.notes-treeview {
     -fx-border-style: none;
-    -fx-background-color:transparent;
+    -fx-background-color: transparent;
 }
 
 .notes-treeview .tree-cell {
@@ -52,12 +52,11 @@
     -fx-background-color: #5B5B5B;
 }
 
-.notes-treeview .tree-cell .arrow
-{
+.notes-treeview .tree-cell .arrow {
     -fx-background-color: white;
 }
 
-.input-field{
+.input-field {
     -fx-background-color: #5B5B5B;
     -fx-text-fill: white;
 }

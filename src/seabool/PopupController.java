@@ -23,7 +23,7 @@ public class PopupController extends AbstractController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         addButton.setOnAction((event) -> {
-            if(!contentField.getText().equals("")){
+            if (!contentField.getText().equals("")) {
                 result = contentField.getText();
             }
             closeStage();

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class StudentClass implements Comparable<StudentClass> {
 
+    private final ArrayList<String> classNotes = new ArrayList<>();
     private String className;
     private File classDirectory;
-    private final ArrayList<String> classNotes = new ArrayList<>();
 
     public StudentClass(String className, File classDirectory) {
         this.className = className;
@@ -44,8 +44,8 @@ public class StudentClass implements Comparable<StudentClass> {
     }
 
     @Override
-    public int compareTo(StudentClass o) {
-        return className.compareTo(o.getClassName());
+    public int compareTo(StudentClass obj) {
+        return className.compareTo(obj.getClassName());
     }
 
     @Override
@@ -55,6 +55,9 @@ public class StudentClass implements Comparable<StudentClass> {
 
     @Override
     public boolean equals(Object obj) {
+        if(getClass() != obj.getClass()){
+            return false;
+        }
         return className.equals(((StudentClass) obj).className);
     }
 }
