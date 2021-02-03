@@ -43,8 +43,7 @@ public class Controller extends AbstractController implements Initializable {
         try {
             xmlHandler = new XMLHandler();
         } catch (ParserConfigurationException | TransformerException | SAXException | IOException e) {
-            //System.out.println("Problem with XML handler.");
-            e.printStackTrace();
+            showPopupWindow("alert.fxml", "Problem with XML handler.");
         }
 
         rootItemInNotesTreeView = new TreeItem<>("Your classes");
@@ -59,7 +58,7 @@ public class Controller extends AbstractController implements Initializable {
         updateNotesTreeView();
     }
 
-    private String showPopupWindow(String fxmlName) {
+    private String showPopupWindow(String fxmlName, String alertText) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("fxml/" + fxmlName));
         PopupController popupController = new PopupController();
@@ -70,6 +69,7 @@ public class Controller extends AbstractController implements Initializable {
             Scene scene = new Scene(layout);
             Stage popupStage = new Stage();
             popupController.setStage(popupStage);
+            popupController.setLabel(alertText);
             if (this.main != null) {
                 popupStage.initOwner(main.getPrimaryStage());
             }
@@ -83,20 +83,20 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     public void addClassOnClick() {
-        String className = showPopupWindow("addClass.fxml");
+        String className = showPopupWindow("addClass.fxml", "Class name");
         if (className != null) {
             studentClasses.add(new StudentClass(className, filesHandler.createClassFolder(className)));
             try {
                 xmlHandler.addToXML(className);
             } catch (TransformerException e) {
-                System.out.println("Problem with adding class to XML file.");
+                showPopupWindow("alert.fxml", "Problem with adding class to XML file.");
             }
             updateNotesTreeView();
         }
     }
 
     public void addNoteOnClick() {
-        String note = showPopupWindow("addNote.fxml");
+        String note = showPopupWindow("addNote.fxml", "Note");
         if (note != null) {
             StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
             if (studentClass != null) {
@@ -104,7 +104,7 @@ public class Controller extends AbstractController implements Initializable {
                 try {
                     xmlHandler.addNoteToClass(studentClass.getClassName(), note);
                 } catch (TransformerException e) {
-                    System.out.println("Problem with adding note to XML file.");
+                    showPopupWindow("alert.fxml", "Problem with adding note to XML file.");
                 }
                 updateNotesTreeView();
             }
@@ -168,7 +168,7 @@ public class Controller extends AbstractController implements Initializable {
             try {
                 desktop.open(file);
             } catch (IOException e) {
-                System.out.println("Problem with opening file.");
+                showPopupWindow("alert.fxml", "Problem with opening file.");
             }
         }
     }
@@ -208,7 +208,7 @@ public class Controller extends AbstractController implements Initializable {
                 try {
                     desktop.open(studentClass.getClassDirectory());
                 } catch (IOException e) {
-                    System.out.println("Problem with opening folder.");
+                    showPopupWindow("alert.fxml", "Problem with opening folder.");
                 }
             }
         }

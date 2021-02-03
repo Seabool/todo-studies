@@ -3,6 +3,7 @@ package seabool;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -17,17 +18,21 @@ public class PopupController extends AbstractController implements Initializable
     private Button addButton;
     @FXML
     private Stage stage = null;
+    @FXML
+    private Label textLabel;
 
     private String result;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        addButton.setOnAction((event) -> {
-            if (!contentField.getText().equals("")) {
-                result = contentField.getText();
-            }
-            closeStage();
-        });
+        if(addButton != null){
+            addButton.setOnAction((event) -> {
+                if (!contentField.getText().equals("")) {
+                    result = contentField.getText();
+                }
+                closeStage();
+            });
+        }
     }
 
     public String getResult() {
@@ -42,6 +47,10 @@ public class PopupController extends AbstractController implements Initializable
         if (stage != null) {
             stage.close();
         }
+    }
+
+    public void setLabel(String text){
+        textLabel.setText(text);
     }
 
 }
