@@ -26,6 +26,8 @@ public class XMLHandler {
     private final FilesHandler filesHandler = new FilesHandler();
     private Document document;
     private Element root;
+    private final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    private final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
     public XMLHandler() throws ParserConfigurationException, TransformerException, IOException, SAXException {
         createXMLFile();
@@ -70,24 +72,11 @@ public class XMLHandler {
 
     private void createXMLFile() throws TransformerException, IOException, SAXException, ParserConfigurationException {
         if (!checkIfXMLFileExists()) {
-
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            document = dBuilder.newDocument();
-
+            document = documentBuilder.newDocument();
             root = document.createElement("classes");
             document.appendChild(root);
-
-            DOMSource source = new DOMSource(document);
-
-            StreamResult result = new StreamResult(new File(filename));
-            transformer.transform(source, result);
+            updateXMLFile();
         } else {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             document = documentBuilder.parse(getFilename());
             root = getDocument().getDocumentElement();
         }
@@ -136,8 +125,7 @@ public class XMLHandler {
 
     public void removeFromXML(String className) throws TransformerException {
         Element classElement = findByName(className);
-        if(classElement != null){
-            System.out.println("Znaleziono");
+        if (classElement != null) {
             classElement.getParentNode().removeChild(classElement);
             updateXMLFile();
         }
