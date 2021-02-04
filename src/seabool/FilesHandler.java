@@ -4,10 +4,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 
 public class FilesHandler {
     private final String mainFolderName = "Classes";
@@ -42,6 +39,17 @@ public class FilesHandler {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Copy a file");
         return fileChooser.showOpenDialog(null);
+    }
+
+    public void removeFolderWithContent(Path path) throws IOException {
+        if (Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS)) {
+            try (DirectoryStream<Path> entries = Files.newDirectoryStream(path)) {
+                for (Path entry : entries) {
+                    removeFolderWithContent(entry);
+                }
+            }
+        }
+        Files.delete(path);
     }
 
 }

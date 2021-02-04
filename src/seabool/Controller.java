@@ -229,4 +229,20 @@ public class Controller extends AbstractController implements Initializable {
     private void clearTreeView(TreeItem<String> root) {
         root.getChildren().clear();
     }
+
+    public void deleteClassOnClick() {
+        StudentClass studentClass = getClassByName(getClassSelectedCell().getValue());
+        if (studentClass != null) {
+            try {
+                xmlHandler.removeFromXML(studentClass.getClassName());
+                filesHandler.removeFolderWithContent(studentClass.getClassDirectory().toPath());
+                studentClasses.remove(studentClass);
+                updateNotesTreeView();
+            } catch (TransformerException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
 }

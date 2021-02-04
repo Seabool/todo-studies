@@ -126,6 +126,15 @@ public class XMLHandler {
         }
     }
 
+    public void removeFromXML(String className) throws TransformerException {
+        Element classElement = findByName(className);
+        if(classElement != null){
+            System.out.println("Znaleziono");
+            classElement.getParentNode().removeChild(classElement);
+            updateXMLFile();
+        }
+    }
+
     public String getFilename() {
         return filename;
     }
