@@ -60,4 +60,9 @@ public class StudentClass implements Comparable<StudentClass> {
         }
         return className.equals(((StudentClass) obj).className);
     }
+
+    @Override
+    public String toString(){
+        return className;
+    }
 }

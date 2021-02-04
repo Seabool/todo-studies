@@ -60,3 +60,7 @@
     -fx-background-color: #5B5B5B;
     -fx-text-fill: white;
 }
+
+.notes-treeview .tree-cell child {
+    -fx-background-color: white;
+}

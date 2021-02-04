@@ -124,6 +124,7 @@ public class Controller extends AbstractController implements Initializable {
                 }
             }
         }
+
         notesTreeView.setRoot(rootItemInNotesTreeView);
     }
 
@@ -154,8 +155,8 @@ public class Controller extends AbstractController implements Initializable {
             if (studentClass != null) {
                 if (studentClass.getClassDirectory() != null) {
                     for (final File fileEntry : Objects.requireNonNull(studentClass.getClassDirectory().listFiles())) {
-                        TreeItem<String> noteItem = new TreeItem<>(fileEntry.getName());
-                        rootItemInFilesTreeView.getChildren().add(noteItem);
+                        TreeItem<String> fileItem = new TreeItem<>(fileEntry.getName());
+                        rootItemInFilesTreeView.getChildren().add(fileItem);
                     }
                 }
             }
