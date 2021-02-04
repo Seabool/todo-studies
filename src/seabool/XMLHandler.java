@@ -70,13 +70,21 @@ public class XMLHandler {
 
     private void createXMLFile() throws TransformerException, IOException, SAXException, ParserConfigurationException {
         if (!checkIfXMLFileExists()) {
-            root = document.createElement("classes");
-            document.appendChild(root);
+
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
-            DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File(filename));
-            transformer.transform(domSource, streamResult);
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            document = dBuilder.newDocument();
+
+            root = document.createElement("classes");
+            document.appendChild(root);
+
+            DOMSource source = new DOMSource(document);
+
+            StreamResult result = new StreamResult(new File(filename));
+            transformer.transform(source, result);
         } else {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
