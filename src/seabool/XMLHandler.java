@@ -24,10 +24,10 @@ public class XMLHandler {
 
     private final String filename = "classes.xml";
     private final FilesHandler filesHandler = new FilesHandler();
-    private Document document;
-    private Element root;
     private final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     private final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    private Document document;
+    private Element root;
 
     public XMLHandler() throws ParserConfigurationException, TransformerException, IOException, SAXException {
         createXMLFile();
@@ -70,7 +70,7 @@ public class XMLHandler {
         return null;
     }
 
-    private void createXMLFile() throws TransformerException, IOException, SAXException, ParserConfigurationException {
+    private void createXMLFile() throws TransformerException, IOException, SAXException {
         if (!checkIfXMLFileExists()) {
             document = documentBuilder.newDocument();
             root = document.createElement("classes");

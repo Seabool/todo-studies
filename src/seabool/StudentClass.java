@@ -55,14 +55,14 @@ public class StudentClass implements Comparable<StudentClass> {
 
     @Override
     public boolean equals(Object obj) {
-        if(getClass() != obj.getClass()){
+        if (getClass() != obj.getClass()) {
             return false;
         }
         return className.equals(((StudentClass) obj).className);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return className;
     }
 }

@@ -25,7 +25,7 @@ public class PopupController extends AbstractController implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(addButton != null){
+        if (addButton != null) {
             addButton.setOnAction((event) -> {
                 if (!contentField.getText().equals("")) {
                     result = contentField.getText();
@@ -49,7 +49,7 @@ public class PopupController extends AbstractController implements Initializable
         }
     }
 
-    public void setLabel(String text){
+    public void setLabel(String text) {
         textLabel.setText(text);
     }
 
